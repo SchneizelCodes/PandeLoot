@@ -8,6 +8,14 @@
       "createdAt": "2026-09-25T13:47:49.312Z",
       "lastLoginAt": "2026-09-25T13:48:02.077Z",
       "voucherId": "vch_1790344076641_k6m31i"
+    },
+    {
+      "id": "usr_1790345037277_3u5yq",
+      "email": "juandc.ph@gmail.com",
+      "name": "juandc.ph",
+      "createdAt": "2026-09-25T14:03:57.277Z",
+      "lastLoginAt": "2026-09-25T14:03:57.277Z",
+      "voucherId": "vch_1790345037725_x6cvud"
     }
   ],
   "vouchers": [
@@ -29,6 +37,26 @@
         "name": "1x Yema Cake",
         "rarity": "legendary",
         "retailPricePhp": 380
+      }
+    },
+    {
+      "id": "vch_1790345037725_x6cvud",
+      "userId": "juandc.ph@gmail.com",
+      "userEmail": "juandc.ph@gmail.com",
+      "itemId": "pastry-torta",
+      "claimCode": "MANAY-YHAC-3089",
+      "status": "ACTIVE",
+      "expiresAt": "2026-09-26T12:00:00.000Z",
+      "perk": "100% Free",
+      "finalPricePhp": 0,
+      "googleMapsUrl": "https://maps.app.goo.gl/dhg1VcLtAYsrEjJC7",
+      "storeHours": "7:00 AM – 8:00 PM (Same-day pickup only)",
+      "guideText": "You can comment on the Facebook post if the bread is available. If yes, you can only receive it within that day between 7:00 AM – 8:00 PM.",
+      "pastryReward": {
+        "id": "pastry-torta",
+        "name": "1x Torta",
+        "rarity": "rare",
+        "retailPricePhp": 50
       }
     }
   ]
