@@ -4,12 +4,11 @@ import { VoucherError } from '@/errors/voucherErrors';
 import { processVoucherRedemption } from '@/services/voucherService';
 import { RedeemVoucherPayload } from '@/types/voucher';
 
-// We use the Service Role key here because verifying and redeeming 
-// requires administrative bypass of standard user RLS policies.
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY ?? ''
-);
+function getSupabaseAdmin() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://hdgsxmtxbarnajxmcohx.supabase.co';
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'dummy-key';
+  return createClient(url, key);
+}
 
 // Boundary validation: Never trust client input
 function validateRedemptionPayload(input: unknown): RedeemVoucherPayload {
@@ -37,12 +36,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const rawJson = await request.json();
     const validatedPayload = validateRedemptionPayload(rawJson);
 
+    const supabaseAdmin = getSupabaseAdmin();
     const redeemedVoucher = await processVoucherRedemption(supabaseAdmin, validatedPayload);
 
     return NextResponse.json({ success: true, data: redeemedVoucher }, { status: 200 });
   } catch (error: unknown) {
     if (error instanceof VoucherError) {
-      // Map domain errors to appropriate HTTP status codes
       const statusMap: Record<VoucherError['code'], number> = {
         INVALID_INPUT: 400,
         INVALID_SIGNATURE: 403,
