@@ -19,29 +19,48 @@ export interface DatabaseSchema {
   vouchers: VoucherRecord[];
 }
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const IS_SERVERLESS = !!process.env.VERCEL;
+const DATA_DIR = IS_SERVERLESS ? '/tmp' : path.join(process.cwd(), 'data');
 const DB_FILE = path.join(DATA_DIR, 'pandeloot_store.json');
+
+// In-memory fallback cache for serverless environments
+let MEMORY_CACHE: DatabaseSchema | null = null;
 
 // Initialize local file storage
 function ensureDatabaseFile(): DatabaseSchema {
+  if (MEMORY_CACHE) return MEMORY_CACHE;
+
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
     if (!fs.existsSync(DB_FILE)) {
+      // Check if seeded file exists in project repository
+      const seedFile = path.join(process.cwd(), 'data', 'pandeloot_store.json');
+      if (fs.existsSync(seedFile)) {
+        const seedContent = fs.readFileSync(seedFile, 'utf-8');
+        fs.writeFileSync(DB_FILE, seedContent, 'utf-8');
+        MEMORY_CACHE = JSON.parse(seedContent) as DatabaseSchema;
+        return MEMORY_CACHE;
+      }
+
       const initial: DatabaseSchema = { users: [], vouchers: [] };
       fs.writeFileSync(DB_FILE, JSON.stringify(initial, null, 2), 'utf-8');
+      MEMORY_CACHE = initial;
       return initial;
     }
     const content = fs.readFileSync(DB_FILE, 'utf-8');
-    return JSON.parse(content) as DatabaseSchema;
+    MEMORY_CACHE = JSON.parse(content) as DatabaseSchema;
+    return MEMORY_CACHE;
   } catch (error) {
     console.error('Error initializing database file:', error);
-    return { users: [], vouchers: [] };
+    MEMORY_CACHE = { users: [], vouchers: [] };
+    return MEMORY_CACHE;
   }
 }
 
 function saveDatabaseFile(data: DatabaseSchema): void {
+  MEMORY_CACHE = data;
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
