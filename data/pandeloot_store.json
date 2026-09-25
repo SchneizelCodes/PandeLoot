@@ -1,0 +1,35 @@
+{
+  "users": [
+    {
+      "id": "google_sub_98765",
+      "email": "maria.santos@gmail.com",
+      "name": "Maria Santos",
+      "googleSub": "google_sub_98765",
+      "createdAt": "2026-09-25T13:47:49.312Z",
+      "lastLoginAt": "2026-09-25T13:48:02.077Z",
+      "voucherId": "vch_1790344076641_k6m31i"
+    }
+  ],
+  "vouchers": [
+    {
+      "id": "vch_1790344076641_k6m31i",
+      "userId": "maria.santos@gmail.com",
+      "userEmail": "maria.santos@gmail.com",
+      "itemId": "pastry-yema-cake",
+      "claimCode": "MANAY-ISC2-2623",
+      "status": "ACTIVE",
+      "expiresAt": "2026-09-26T12:00:00.000Z",
+      "perk": "100% Free",
+      "finalPricePhp": 0,
+      "googleMapsUrl": "https://maps.app.goo.gl/dhg1VcLtAYsrEjJC7",
+      "storeHours": "7:00 AM – 8:00 PM (Same-day pickup only)",
+      "guideText": "You can comment on the Facebook post if the bread is available. If yes, you can only receive it within that day between 7:00 AM – 8:00 PM.",
+      "pastryReward": {
+        "id": "pastry-yema-cake",
+        "name": "1x Yema Cake",
+        "rarity": "legendary",
+        "retailPricePhp": 380
+      }
+    }
+  ]
+}
